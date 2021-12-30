@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  become: true
+  tasks:
+  - name: stop if we have old docker container
+    command: docker stop nodejs-container
+    ignore_errors: yes
+
+  - name: remove stopped docker container
+    command: docker rm nodejs-container
+    ignore_errors: yes
+
+  - name: remove current docker image
+    command: docker rmi swara1214/nodejs-helloworld
+    ignore_errors: yes
+
+
+  - name: building docker image
+    command: docker build -t swara1214/nodejs-helloworld .
+
+  - name: creating docker image
+    command: docker run -d --name nodejs-container -p 8080:8080 swara1214/nodejs-helloworld
+
+  - name: push successful built image to docker hub
+    command: docker push swara1214/nodejs-helloworld:latest
