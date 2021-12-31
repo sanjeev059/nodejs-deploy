@@ -1,0 +1,10 @@
+---
+- name: Create pods using deployment
+  hosts: kubernetes
+  become: true
+  user: root
+
+  tasks:
+  - name: create a deployment
+    command: kubectl apply -f nodejs-deploy.yml
+
