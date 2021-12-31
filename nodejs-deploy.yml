@@ -1,0 +1,27 @@
+piVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-project
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: nodejs-project
+    spec:
+      containers:
+      - name: nodejs-container
+        image: swara1214/nodejs-helloworld
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+
